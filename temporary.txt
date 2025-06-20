@@ -1,0 +1,46 @@
+// ...existing code...
+
+// 1. Define types for each game's data
+type ChessGameData = { moves: string[]; winner: string };
+type QuizGameData = { questions: string[]; score: number };
+
+// 2. Map game names to types
+type GameDataMap = {
+    chess: ChessGameData;
+    quiz: QuizGameData;
+    // add more as needed
+};
+
+// 3. Helper type to get the data type for a given game_name
+type GameName = keyof GameDataMap;
+type GameData<T extends GameName> = GameDataMap[T];
+
+// 4. Type guard to narrow game_name
+function isGameName(name: string): name is GameName {
+    return ['chess', 'quiz'].includes(name);
+}
+
+export default function GamePage() {
+    const {game_name} = useParams();
+
+    if (!game_name || !isGameName(game_name)) {
+        return <div>Invalid game</div>;
+    }
+
+    // 5. Use the correct type for data
+    const {data, isError, isLoading, error} = useQuery<GameData<typeof game_name>>({
+        queryKey: ['game', game_name],
+        queryFn: () => GetDailyGame(game_name)
+    });
+
+    if (isLoading) return <div>Loading...</div>;
+    if (isError) return <div>Error: {error?.message || 'Failed to load daily game'}</div>;
+
+    // Now `data` is type-safe!
+    return (
+        <div className="h-screen w-full flex items-center justify-center">
+            <h1 className="text-2xl font-bold">{game_name}</h1>
+            <pre>{JSON.stringify(data, null, 2)}</pre>
+        </div>
+    );
+}
