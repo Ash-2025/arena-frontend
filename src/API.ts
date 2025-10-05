@@ -1,7 +1,7 @@
 import {GameDataSchema, getMostRecentGamesSchema, ListAllGamesSchema, type gamename} from "@/Schemas.ts";
 import axios from 'axios'
 
-export const baseUrl = import.meta.env.BASE_URL;
+export const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export async function GetGames(){
     const res = await fetch(`${baseUrl}/game`, {credentials: 'include'});
