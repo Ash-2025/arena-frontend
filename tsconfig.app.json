@@ -12,8 +12,6 @@
         "./src/*"
       ]
     },
-    "rootDir": "src",
-    "outDir": "dist",
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
