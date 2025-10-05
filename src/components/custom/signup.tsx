@@ -352,7 +352,7 @@ function OAuthButtons() {
   const signIn = async () => {
     await authClient.signIn.social({
       provider: "google",
-      callbackURL:"http://localhost:5173"
+      callbackURL:"https://arenna.netlify.app"
     });
     toast.info(`Signing in with Google`)
   };
